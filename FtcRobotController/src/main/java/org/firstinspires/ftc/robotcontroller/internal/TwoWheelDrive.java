@@ -1,13 +1,8 @@
 package org.firstinspires.ftc.robotcontroller.internal;
-
-/**
- * Created by kevinrockwell on 9/9/18.
- */
-
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name="MOM", group="Competition Op Modes")
-public class MainOpMode extends BaseOpMode
+@TeleOp(name="2Wheel", group="Testing Op Modes")
+public class TwoWheelDrive extends BaseOpMode
 {
 
     public void runOpMode() {
@@ -119,10 +114,10 @@ public class MainOpMode extends BaseOpMode
             telemetry.addData("right_stick_y: ", gamepad1.right_stick_y);
             telemetry.update();
 
-            //leftBackMotor.setPower(left / speedCorrection);
-            //rightBackMotor.setPower(right / speedCorrection);
-            //leftFrontMotor.setPower(left / speedCorrection);
-            //rightFrontMotor.setPower(right / speedCorrection);
+            leftBackMotor.setPower(left / speedCorrection);
+            rightBackMotor.setPower(right / speedCorrection);
+            leftFrontMotor.setPower(left / speedCorrection);
+            rightFrontMotor.setPower(right / speedCorrection);
             // End code for driving
             if (slowDriveDelay > 0)
                 slowDriveDelay -= 10;
