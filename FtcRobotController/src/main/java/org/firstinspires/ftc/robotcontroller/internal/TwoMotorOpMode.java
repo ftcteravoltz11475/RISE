@@ -8,25 +8,29 @@ public class TwoMotorOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        double slowspeed = .2;
+        double slowspeed = .5;
         boolean slowdrive = false;
+
         DcMotor rightFrontMotor = hardwareMap.get(DcMotor.class, "rightFrontMotor");
         DcMotor leftFrontMotor = hardwareMap.get(DcMotor.class, "leftFrontMotor");
         DcMotor rightBackMotor = hardwareMap.get(DcMotor.class, "rightBackMotor");
         DcMotor leftBackMotor = hardwareMap.get(DcMotor.class, "leftBackMotor");
+
         waitForStart();
         addTelemetry("Status:", "Starting TwoMotorOpMode");
+
         while (opModeIsActive()) {
           if (gamepad1.a) {
               addTelemetry("A button:", "Active");
-
           }
+
           float rightdrive = gamepad1.right_stick_y;
           float leftdrive = gamepad1.left_stick_y;
 
           if(gamepad1.dpad_up == true){
               slowdrive = false;
           }
+
           if (gamepad1.dpad_down == true){
               slowdrive = true;
           }
@@ -35,10 +39,12 @@ public class TwoMotorOpMode extends LinearOpMode {
               rightdrive *= slowspeed;
               leftdrive *= slowspeed;
           }
-            rightFrontMotor.setPower(rightdrive);
-            rightBackMotor.setPower(-rightdrive);
-            leftFrontMotor.setPower(leftdrive);
-            leftBackMotor.setPower(-leftdrive);
+
+          rightFrontMotor.setPower(-Math.abs(rightdrive)*rightdrive);
+          rightBackMotor.setPower(Math.abs(rightdrive)*rightdrive);
+          leftFrontMotor.setPower(-Math.abs(leftdrive)*leftdrive);
+          leftBackMotor.setPower(Math.abs(leftdrive)*leftdrive);
+
           addTelemetry("right power: ", rightdrive);
           addTelemetry("left power: ", leftdrive);
           telemetry.addData("drive mode: ", slowdrive);
