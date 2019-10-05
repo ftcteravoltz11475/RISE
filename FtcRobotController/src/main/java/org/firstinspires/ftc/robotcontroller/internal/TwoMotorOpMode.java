@@ -10,8 +10,10 @@ public class TwoMotorOpMode extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         double slowspeed = .2;
         boolean slowdrive = false;
-        DcMotor rightMotor = hardwareMap.get(DcMotor.class, "rightMotor");
-        DcMotor leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
+        DcMotor rightFrontMotor = hardwareMap.get(DcMotor.class, "rightFrontMotor");
+        DcMotor leftFrontMotor = hardwareMap.get(DcMotor.class, "leftFrontMotor");
+        DcMotor rightBackMotor = hardwareMap.get(DcMotor.class, "rightBackMotor");
+        DcMotor leftBackMotor = hardwareMap.get(DcMotor.class, "leftBackMotor");
         waitForStart();
         addTelemetry("Status:", "Starting TwoMotorOpMode");
         while (opModeIsActive()) {
@@ -33,8 +35,10 @@ public class TwoMotorOpMode extends LinearOpMode {
               rightdrive *= slowspeed;
               leftdrive *= slowspeed;
           }
-            rightMotor.setPower(rightdrive);
-            leftMotor.setPower(leftdrive);
+            rightFrontMotor.setPower(rightdrive);
+            rightBackMotor.setPower(-rightdrive);
+            leftFrontMotor.setPower(leftdrive);
+            leftBackMotor.setPower(-leftdrive);
           addTelemetry("right power: ", rightdrive);
           addTelemetry("left power: ", leftdrive);
           telemetry.addData("drive mode: ", slowdrive);
