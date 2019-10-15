@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class FoundationMover extends LinearOpMode {
 
     //Declaring the hardware
-    Servo servo = hardwareMap.get(Servo.class, "Servo");
+    Servo foundationServo = hardwareMap.get(Servo.class, "foundationServo");
     DcMotor rightFrontMotor = hardwareMap.get(DcMotor.class, "rightFrontMotor");
     DcMotor leftFrontMotor = hardwareMap.get(DcMotor.class, "leftFrontMotor");
     DcMotor rightBackMotor = hardwareMap.get(DcMotor.class, "rightBackMotor");
@@ -31,7 +31,7 @@ public class FoundationMover extends LinearOpMode {
         //Declaring the servo
 
         waitForStart();
-        telemetry.addData("Status:", "Starting FoundationMover");
+        //telemetry.addData("Status:", "Starting FoundationMover");
 
         while (opModeIsActive()) {
 
@@ -41,14 +41,14 @@ public class FoundationMover extends LinearOpMode {
             if (gamepad1.a == true) {
                 //Pressing a either turns or resets the position of the servo
                 if(!turned) {
-                    servo.setPosition(0.5);
+                    foundationServo.setPosition(0.5);
                     turned = true;
-                    telemetry.addData("Turning Servo:", "90 degrees");
+                    //telemetry.addData("Turning Servo:", "90 degrees");
                 }
                 else {
-                    servo.setPosition(0);
+                    foundationServo.setPosition(0);
                     turned = false;
-                    telemetry.addData("Turning Servo:", "0 degrees");
+                    //telemetry.addData("Turning Servo:", "0 degrees");
                 }
             }
 
@@ -66,16 +66,19 @@ public class FoundationMover extends LinearOpMode {
                 leftDrive *= SLOWSPEED;
             }
             //If the difference between rightDrive and leftDrive isn't large,
+            /*
             if(isSmallEnoughDifference(rightDrive,leftDrive)){
                 float max = Math.max(rightDrive,leftDrive);
                 drive(max,max);
             }
             else {
-                drive(rightDrive,leftDrive);
-            }
-            telemetry.addData("right power: ", rightDrive);
-            telemetry.addData("left power: ", leftDrive);
-            telemetry.addData("drive mode: ", slowDrive);
+
+             */
+            drive(rightDrive,leftDrive);
+
+            //telemetry.addData("right power: ", rightDrive);
+            //telemetry.addData("left power: ", leftDrive);
+            //telemetry.addData("drive mode: ", slowDrive);
             telemetry.update();
         }
 
@@ -88,14 +91,15 @@ public class FoundationMover extends LinearOpMode {
             return false;
     }
     public float scalePower(float power){
-        //Scales the power to be |power|
+        //Scales the power to be power * |power|
         return Math.abs(power) * power;
     }
+
     public void drive(float power1, float power2){
         //Sets the power for the right to power1 scaled and left power2 scaled
-        rightFrontMotor.setPower(-scalePower(power1));
-        rightBackMotor.setPower(scalePower(power1));
-        leftFrontMotor.setPower(-scalePower(power2));
-        leftBackMotor.setPower(scalePower(power2));
+        rightFrontMotor.setPower(scalePower(power1));
+        rightBackMotor.setPower(-scalePower(power1));
+        leftFrontMotor.setPower(scalePower(power2));
+        leftBackMotor.setPower(-scalePower(power2));
     }
 }

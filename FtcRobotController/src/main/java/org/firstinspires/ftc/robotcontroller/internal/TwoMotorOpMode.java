@@ -47,10 +47,10 @@ public class TwoMotorOpMode extends LinearOpMode {
               leftdrive *= slowspeed;
           }
 
-          rightFrontMotor.setPower(Math.abs(rightdrive)*rightdrive);
-          rightBackMotor.setPower(-Math.abs(rightdrive)*rightdrive);
-          leftFrontMotor.setPower(Math.abs(leftdrive)*leftdrive);
-          leftBackMotor.setPower(-Math.abs(leftdrive)*leftdrive);
+          rightFrontMotor.setPower(-Math.abs(rightdrive)*rightdrive);
+          rightBackMotor.setPower(Math.abs(rightdrive)*rightdrive);
+          leftFrontMotor.setPower(-Math.abs(leftdrive)*leftdrive);
+          leftBackMotor.setPower(Math.abs(leftdrive)*leftdrive);
 
           addTelemetry("right power: ", rightdrive);
           addTelemetry("left power: ", leftdrive);
