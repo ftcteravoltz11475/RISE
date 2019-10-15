@@ -3,6 +3,8 @@ package org.firstinspires.ftc.robotcontroller.internal;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 @TeleOp(name="TwoMotors", group="Competition Op Modes")
 public class TwoMotorOpMode extends LinearOpMode {
 
@@ -15,6 +17,11 @@ public class TwoMotorOpMode extends LinearOpMode {
         DcMotor leftFrontMotor = hardwareMap.get(DcMotor.class, "leftFrontMotor");
         DcMotor rightBackMotor = hardwareMap.get(DcMotor.class, "rightBackMotor");
         DcMotor leftBackMotor = hardwareMap.get(DcMotor.class, "leftBackMotor");
+
+        rightFrontMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftFrontMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightBackMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftBackMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         waitForStart();
         addTelemetry("Status:", "Starting TwoMotorOpMode");
@@ -40,10 +47,10 @@ public class TwoMotorOpMode extends LinearOpMode {
               leftdrive *= slowspeed;
           }
 
-          rightFrontMotor.setPower(-Math.abs(rightdrive)*rightdrive);
-          rightBackMotor.setPower(Math.abs(rightdrive)*rightdrive);
-          leftFrontMotor.setPower(-Math.abs(leftdrive)*leftdrive);
-          leftBackMotor.setPower(Math.abs(leftdrive)*leftdrive);
+          rightFrontMotor.setPower(Math.abs(rightdrive)*rightdrive);
+          rightBackMotor.setPower(-Math.abs(rightdrive)*rightdrive);
+          leftFrontMotor.setPower(Math.abs(leftdrive)*leftdrive);
+          leftBackMotor.setPower(-Math.abs(leftdrive)*leftdrive);
 
           addTelemetry("right power: ", rightdrive);
           addTelemetry("left power: ", leftdrive);
