@@ -4,41 +4,40 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
-
+import com.qualcomm.robotcore.util.*;
 /*
 
  */
 @TeleOp(name="ClawTester", group="Testing Op Modes")
 public class ClawTester extends LinearOpMode {
 
-    //Declaring the hardware
-    Servo clawServo = hardwareMap.get(Servo.class, "clawServo");
-    DcMotor liftMotorLeft = hardwareMap.get(DcMotor.class, "liftMotorLeft");
-    DcMotor liftMotorRight = hardwareMap.get(DcMotor.class, "liftMotorRight");
 
     @Override
     public void runOpMode() throws InterruptedException {
+        //Declaring the hardware
+        Servo clawServo = hardwareMap.get(Servo.class, "clawServo");
+        DcMotor liftMotorLeft = hardwareMap.get(DcMotor.class, "liftMotorLeft");
+        DcMotor liftMotorRight = hardwareMap.get(DcMotor.class, "liftMotorRight");
+
         //Variable declarations
         boolean turned = false;
         float power = 0;
+        liftMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        liftMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         waitForStart();
         //telemetry.addData("Status:", "Starting FoundationMover");
 
         while (opModeIsActive()) {
 
-            if (gamepad1.a == true) {
-                //Pressing a either turns or resets the position of the servo
-                if(!turned) {
-                    clawServo.setPosition(0.5);
-                    turned = true;
-                    //telemetry.addData("Turning Servo:", "90 degrees");
-                }
-                else {
-                    clawServo.setPosition(0);
-                    turned = false;
-                    //telemetry.addData("Turning Servo:", "0 degrees");
-                }
+            if (gamepad1.right_bumper) {
+                clawServo.setPosition(0.5);
+            }
+            if(gamepad1.left_bumper){
+                clawServo.setPosition(0);
             }
             if(gamepad1.dpad_up){
                 power += 0.1;
@@ -47,11 +46,23 @@ public class ClawTester extends LinearOpMode {
             if(gamepad1.dpad_down){
                 power -= 0.1;
             }
-            
-            liftMotorLeft.setPower(power);
-            liftMotorRight.setPower(-power);
 
+            power = Range.clip(power, 0, 1);
 
+            if(gamepad1.y) {
+                liftMotorLeft.setPower(power);
+                liftMotorRight.setPower(-power);
+            }
+            else if(gamepad1.a) {
+                liftMotorLeft.setPower(-power);
+                liftMotorRight.setPower(power);
+            }
+            else {
+                liftMotorLeft.setPower(0);
+                liftMotorRight.setPower(0);
+            }
+            telemetry.addData("Power: " , power);
+            sleep(40);
             telemetry.update();
         }
 
