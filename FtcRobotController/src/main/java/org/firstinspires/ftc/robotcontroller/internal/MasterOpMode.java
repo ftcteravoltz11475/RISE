@@ -65,37 +65,27 @@ public class MasterOpMode extends LinearOpMode{
             }
             power = Range.clip(power, 0, 1);
 
-            if (gamepad1.a) {
-                if(liftStop == false) {
-                    liftToggleLift = !liftToggleLift;
-                    liftToggleLower = !liftToggleLower;
-                }
-                liftStop = !liftStop;
+            if(gamepad1.y) {
+                liftMotorLeft.setPower(power);
+                liftMotorRight.setPower(-power);
             }
-            else if(liftStop == true) {
+            else if(gamepad1.a) {
+                liftMotorLeft.setPower(-power);
+                liftMotorRight.setPower(power);
+            }
+            else {
                 liftMotorLeft.setPower(0);
                 liftMotorRight.setPower(0);
             }
-            else if (liftToggleLift == true) {
-                liftMotorLeft.setPower(1);
-                liftMotorRight.setPower(-1);
-            }
-            else if (liftToggleLower == true) {
-                liftMotorLeft.setPower(-1);
-                liftMotorRight.setPower(1);
-            }
+            telemetry.addData("Power: " , power);
+            sleep(40);
+            telemetry.update();
 
-            if (gamepad1.left_bumper == true) {
-                //Pressing a either turns or resets the position of the servo
-                if (!turnedFoundationServo) {
-                    foundationServo.setPosition(0.5);
-                    turnedFoundationServo = true;
-                    //telemetry.addData("Turning Servo:", "90 degrees");
-                } else {
-                    foundationServo.setPosition(0);
-                    turnedFoundationServo = false;
-                    //telemetry.addData("Turning Servo:", "0 degrees");
-                }
+            if (gamepad1.b == true) {
+                foundationServo.setPosition(0.5);
+            }
+            if(gamepad1.x){
+                foundationServo.setPosition(0);
             }
 
             //If the dpad up is pressed, turn off slow drive
