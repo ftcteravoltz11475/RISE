@@ -37,11 +37,6 @@ public class MasterOpMode extends LinearOpMode{
         final double SLOWSPEED = .7;
         boolean slowDrive = false;
         float rightDrive, leftDrive;
-        boolean turnedClawServo = false;
-        boolean turnedFoundationServo = false;
-        boolean liftStop = true;
-        boolean liftToggleLift = true;
-        boolean liftToggleLower = false;
         float power = 0;
         liftMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
