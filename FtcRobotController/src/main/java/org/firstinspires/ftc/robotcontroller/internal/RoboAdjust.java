@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name = "MasterOpMode" , group = "Main Op Modes")
-public class MasterOpMode extends LinearOpMode{
+@TeleOp(name = "Adjustments" , group = "TeleOp")
+public class RoboAdjust extends LinearOpMode{
 
     //Declaring the hardware
     Servo foundationServo;
@@ -51,8 +51,8 @@ public class MasterOpMode extends LinearOpMode{
         rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        int bottomPos = liftMotorLeft.getCurrentPosition();
-        int topPos = 6200;
+        int bottomPos = liftMotorRight.getCurrentPosition();
+        int topPos = bottomPos + 6200;
 
 
         waitForStart();
@@ -64,17 +64,17 @@ public class MasterOpMode extends LinearOpMode{
             leftDrive = gamepad1.left_stick_y;
 
             if (gamepad1.right_bumper) {
-                 clawServo.setPosition(0.5);
+                clawServo.setPosition(0.5);
             }
             if(gamepad1.left_bumper){
                 clawServo.setPosition(0);
             }
 
-            if(gamepad1.a && liftMotorLeft.getCurrentPosition() - bottomPos >= 0) {
+            if(gamepad1.a) {
                 liftMotorLeft.setPower(1);
                 liftMotorRight.setPower(-1);
             }
-            else if(gamepad1.y && liftMotorLeft.getCurrentPosition() - bottomPos <= topPos) {
+            else if(gamepad1.y) {
                 liftMotorLeft.setPower(-1);
                 liftMotorRight.setPower(1);
             }
