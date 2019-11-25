@@ -51,8 +51,9 @@ public class MasterOpMode extends LinearOpMode{
         rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        int bottomPos = liftMotorLeft.getCurrentPosition();
-        int topPos = 6200;
+        int bottomPosL = liftMotorLeft.getCurrentPosition();
+        int bottomPosR = liftMotorRight.getCurrentPosition();
+        int topPos = 6000;
 
 
         waitForStart();
@@ -63,18 +64,18 @@ public class MasterOpMode extends LinearOpMode{
             rightDrive = gamepad1.right_stick_y;
             leftDrive = gamepad1.left_stick_y;
 
-            if (gamepad1.right_bumper) {
+            if (gamepad2.right_bumper) {
                  clawServo.setPosition(0.5);
             }
-            if(gamepad1.left_bumper){
+            if(gamepad2.left_bumper){
                 clawServo.setPosition(0);
             }
 
-            if(gamepad1.a && liftMotorLeft.getCurrentPosition() - bottomPos >= 0) {
+            if(gamepad2.a && bottomPosL - liftMotorLeft.getCurrentPosition() >= 0) {
                 liftMotorLeft.setPower(1);
                 liftMotorRight.setPower(-1);
             }
-            else if(gamepad1.y && liftMotorLeft.getCurrentPosition() - bottomPos <= topPos) {
+            else if(gamepad2.y && bottomPosL - liftMotorLeft.getCurrentPosition()  <= topPos) {
                 liftMotorLeft.setPower(-1);
                 liftMotorRight.setPower(1);
             }
@@ -105,7 +106,8 @@ public class MasterOpMode extends LinearOpMode{
             }
             Drive(rightDrive, leftDrive);
 
-            telemetry.addData("Lift Pos: ", liftMotorRight.getCurrentPosition() - bottomPos);
+            telemetry.addData("Lift Pos: L", bottomPosL - liftMotorLeft.getCurrentPosition());
+            telemetry.addData("Lift Pos: R" , liftMotorRight.getCurrentPosition() - bottomPosR);
             telemetry.update();
         }
     }
