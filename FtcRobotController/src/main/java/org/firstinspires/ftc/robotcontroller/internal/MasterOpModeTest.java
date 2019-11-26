@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.robotcontroller.internal;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name = "MasterOpModeTest" , group = "Main Op Modes")
@@ -17,6 +16,7 @@ public class MasterOpModeTest extends Robot{
         float rightDriveY, leftDriveY, rightDriveX, leftDriveX;
         double angle = 0;
         int topPos = 6000;
+        boolean mecDrive = false;
 
 
         waitForStart();
@@ -25,22 +25,21 @@ public class MasterOpModeTest extends Robot{
 
             rightDriveY = gamepad1.right_stick_y;
             leftDriveY = gamepad1.left_stick_y;
-            leftDriveX = gamepad1.left_stick_x;
-            rightDriveX = gamepad1.left_stick_x;
+            rightDriveX = gamepad1.right_stick_x;
 
             //right bumper closes the claw and vice versa
-            if (gamepad1.right_bumper) {
-                TurnClaw(angle);
+            if (gamepad2.right_bumper) {
+                TurnClaw(0.55);
             }
-            if(gamepad1.left_bumper){
+            if(gamepad2.left_bumper){
                 ResetClaw();
             }
 
             //y lifts and a lowers lift, otherwise stop the lift
-            if(gamepad1.y && getPosLift() >= 0) {
+            if(gamepad2.a && getPosLift() >= 0) {
                 Lift(1);
             }
-            else if(gamepad1.a && getPosLift()  <= topPos) {
+            else if(gamepad2.y && getPosLift()  <= topPos) {
                 Lift(-1);
             }
             else {
@@ -49,10 +48,10 @@ public class MasterOpModeTest extends Robot{
 
 
             //b closes the foundation servo and x opens it.
-            if (gamepad1.b == true) {
-                TurnFoundationServo(angle);
+            if (gamepad2.b == true) {
+                TurnFoundationServo(0.5);
             }
-            if(gamepad1.x){
+            if(gamepad2.x){
                 ResetFoundationServo();
             }
 
@@ -68,27 +67,35 @@ public class MasterOpModeTest extends Robot{
             if (slowDrive == true) {
                 rightDriveY *= SLOWSPEED;
                 leftDriveY *= SLOWSPEED;
-                rightDriveX *= SLOWSPEED;
-                leftDriveX *= SLOWSPEED;
+//                rightDriveX *= SLOWSPEED;
             }
 
-            if(gamepad1.dpad_right){
-                angle += 0.01;
+/*
+            if(gamepad1.right_stick_button){
+                mecDrive = true;
             }
+            if(gamepad1.left_stick_button){
+                mecDrive = false;
+            }
+
+ */
+
             if(gamepad1.dpad_left){
-                angle -= 0.01;
+                MecanumDrive(-1);
             }
-
-            if(){
+            else if(gamepad1.dpad_right){
+                MecanumDrive(1);
+            }
+            else{
                 TankDrive(rightDriveY, leftDriveY);
             }
 
 
-
-
             telemetry.addData("Lift Pos:", getPosLift());
             telemetry.addData("Wheel Pos:", getPosWheel());
-            telemetry.addData("Angle",angle);
+            telemetry.addData("Angle: ",angle);
+            telemetry.addData("Slow Drive: ", slowDrive);
+            telemetry.addData("Mecanum Drive", mecDrive);
             telemetry.update();
         }
     }
