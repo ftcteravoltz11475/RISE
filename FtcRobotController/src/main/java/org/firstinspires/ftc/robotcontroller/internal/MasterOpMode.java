@@ -71,11 +71,11 @@ public class MasterOpMode extends LinearOpMode{
                 clawServo.setPosition(0);
             }
 
-            if(gamepad2.a && bottomPosL - liftMotorLeft.getCurrentPosition() >= 0) {
+            if(gamepad2.y && bottomPosL - liftMotorLeft.getCurrentPosition() >= 0) {
                 liftMotorLeft.setPower(1);
                 liftMotorRight.setPower(-1);
             }
-            else if(gamepad2.y && bottomPosL - liftMotorLeft.getCurrentPosition()  <= topPos) {
+            else if(gamepad2.a && bottomPosL - liftMotorLeft.getCurrentPosition()  <= topPos) {
                 liftMotorLeft.setPower(-1);
                 liftMotorRight.setPower(1);
             }
