@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public abstract class Robot extends LinearOpMode{
+public abstract class  Robot extends LinearOpMode{
     private Servo foundationServo, clawServo;
     private DcMotor rightFrontMotor,leftFrontMotor, rightBackMotor, leftBackMotor, liftMotorLeft, liftMotorRight;
     private int posLift, posWheel;
